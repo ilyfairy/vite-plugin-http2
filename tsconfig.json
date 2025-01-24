@@ -9,7 +9,7 @@
     "declarationDir": "dist",
     "declaration": true,
     "target": "ES2019",
-    "module": "commonjs",
+    "module": "ESNext",
     "lib": [
       "ESNext",
       "dom"
