@@ -1,19 +1,37 @@
-import type { Plugin } from 'vite';
-import type { http1WebOptions } from 'http2-proxy';
-const devcert = require('devcert');
+import type { Plugin } from "vite";
+import type { http1WebOptions } from "http2-proxy";
+import devcert from "devcert";
+import http2Proxy from "http2-proxy";
 
-const http2Proxy = require('http2-proxy');
-
-
+const tlsOptions = [
+  'ca',
+  'cert',
+  'ciphers',
+  'clientCertEngine',
+  'crl',
+  'dhparam',
+  'ecdhCurve',
+  'honorCipherOrder',
+  'key',
+  'passphrase',
+  'pfx',
+  'rejectUnauthorized',
+  'secureOptions',
+  'secureProtocol',
+  'servername',
+  'sessionIdContext',
+  'highWaterMark',
+  'checkServerIdentity',
+] as const;
 
 type OptionsTypes = {
-    proxy?: { [key: string]: http1WebOptions } & { ws?: boolean } | undefined,
-    certificateDomain?: string | string[] | undefined,
+  proxy?: { [key: string]: http1WebOptions & { ws?: boolean } & {[key in typeof tlsOptions[number]]?: any } } | undefined;
+  certificateDomain?: string | string[] | undefined;
     ssl?: {
         key: string;
         cert: string;
-    }
-}
+  };
+};
 
 export default (options?: OptionsTypes): Plugin => {
     return {
